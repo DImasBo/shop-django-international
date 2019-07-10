@@ -9,7 +9,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page">Твар з категорія: 
-    	<a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a> або <a href="{{request.META.HTTP_REFERER}}">повернутись на попередню сторінку.</a></li>
+    	<a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a> , <a href="{{request.META.HTTP_REFERER}}">повернутись на попередню сторінку.</a></li>
   </ol>
 </nav>
 {% endblock %}
