@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"utf-8\">
+  <title>
+    {% block title %}
+    Yura shop
+    {% endblock %}
+  </title>
+  
+  <meta name=\"description\" content=\"The HTML5 Herald\">
+  <meta name=\"author\" content=\"SitePoint\">
+  <link rel=\"stylesheet\" href=\"css/styles.css?v=1.0\">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!--[if lt IE 9]>
+  <link rel=\"stylesheet\" href=\"css/styles.css?v=1.0\">
+    <script src=\"http://html5shiv.googlecode.com/svn/trunk/html5.js\"></script>
+  <script src=\"js/scripts.js\"></script>
+  <![endif]-->
+</head>
+<body>
+	<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url 'index' %}">Yura SHOP</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'cart_url' %}">Кошик <span class="badge badge-light">{{ cart.item.count }}</span></a>
+  </li>
+</ul>
+
+	<div class="container">
+  <!-- Content here -->
+  {% block content %}
+		<h1>Yura shop</h1>
+  {% endblock %}
+	</div>
+</body>
+</html>
