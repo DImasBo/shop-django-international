@@ -168,9 +168,11 @@
 		          </a>
 						</div>
 						<!-- /footer logo -->
-
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-						<a href="#"><img src="{% static 'img/instagram.png' %}" width="20" height="20" alt="instagram"></a>
+				{% if request.user.is_authenticated and request.user.is_staff %}
+					<a href="{{ description.get_edit_url }}"><img width="20" height="20" src="{% static 'img/edit.png' %}">редагувати</a>
+				{% endif %}
+						<p>{{description.description|safe }}</p>
+						<a href="https://www.instagram.com/domashneemyltse/" target="_blank"><img src="{% static 'img/instagram.png' %}" width="20" height="20" alt="instagram"></a>
 						<a href="#"><img src="{% static 'img/facebook.png' %}" width="20" height="20" alt="facebook"></a>
 					</div>
 				</div>

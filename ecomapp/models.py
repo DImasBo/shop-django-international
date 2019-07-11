@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.signals import pre_save, post_delete
 
 from django.shortcuts import reverse
 
@@ -13,13 +12,19 @@ from decimal import Decimal
 
 class Category(models.Model):
 	name = models.CharField(max_length=50, verbose_name = 'Назва')
-	slug = models.SlugField(blank=True)
+	slug = models.SlugField(blank=True,verbose_name="Ключове слово(не обов'ясково)")
 
 	def __str__(self):
 		return self.name
 
 	def get_absolute_url(self):
 		return reverse('category_list_url',kwargs={'slug':self.slug})
+
+	def save(self, *args, **kwargs):
+		if not self.slug and self.name:
+			slug = slugify(translit(self.name,'uk', reversed=True))
+			self.slug = slug
+		super().save(args, kwargs)
 
 	class Meta:
 		verbose_name = 'Категорію'
@@ -28,9 +33,9 @@ class Category(models.Model):
 		
 class Page(models.Model):
 
-	title = models.CharField(max_length=100)
-	description = models.TextField()
-	slug = models.SlugField()
+	title = models.CharField(max_length=100, verbose_name='Заголовок')
+	description = models.TextField(verbose_name='Опис')
+	slug = models.SlugField(verbose_name="Ключове слово")
 
 	def __str__(self):
 		return self.title
@@ -45,16 +50,6 @@ class Page(models.Model):
 		verbose_name_plural = 'Сторінки сайта'
 		verbose_name = 'Сторінку сайта'
 
-def pre_save_product_slug(sender,instance, *args, **kwargs):
-	if not instance.slug and instance.title:
-		slug = slugify(translit(instance.title, 'uk', reversed=True))
-		instance.slug = slug
-
-def pre_save_category_slug(sender,instance, *args, **kwargs):
-	if not instance.slug and instance.name:
-		slug = slugify(translit(instance.name,'uk', reversed=True))
-		instance.slug = slug
-
 def image_folder(instance, filename):
 	filename = instance.slug + '.' + filename.split('.')[1]
 	return "{0}/{1}".format(instance.slug,filename)
@@ -67,23 +62,30 @@ def image_folder_album(instance, filename):
 	filename = instance.product.slug + '.' + filename.split('.')[-1]
 	return "{0}/{1}".format(instance.product.slug, filename)
 
-pre_save.connect(pre_save_category_slug, Category)
-
 class Product(models.Model):
 
-	title = models.CharField(max_length=50)
-	description = models.TextField()
-	price = models.DecimalField(max_digits=9, decimal_places=2)
-	category = models.ForeignKey(Category,on_delete=models.CASCADE)
-	count = models.PositiveIntegerField(default=1)
-	slug = models.SlugField(blank=True)
-	available = models.BooleanField(default=True)
+	title = models.CharField(max_length=50, verbose_name='Заголовок')
+	description = models.TextField( verbose_name='Опис')
+	price = models.DecimalField(max_digits=9, decimal_places=2,  verbose_name='Ціна')
+	category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name='Категорія')
+	count = models.PositiveIntegerField(default=1,  verbose_name='Кількість товару')
+	slug = models.SlugField(blank=True,  verbose_name="Ключове слово(не обов'ясково)")
+	available = models.BooleanField(default=True, verbose_name='В наявності')
 	date = models.DateTimeField(auto_now_add=True)
-	album_cover = models.ImageField(upload_to=image_folder_cover )
+	album_cover = models.ImageField(upload_to=image_folder_cover, verbose_name='Фото обкладинки')
 
 	def get_absolute_url(self):
 		return reverse('product_detail_url',kwargs={'slug':self.slug})
 
+	def delete(self, *args, **kwargs):
+		self.album_cover.delete(save=False)
+		super().delete(args, kwargs)
+
+	def save(self, *args, **kwargs):
+		if not self.slug and self.title:
+			slug = slugify(translit(self.title,'uk', reversed=True))
+			self.slug = slug
+		super().save(args, kwargs)
 
 	def get_add_to_cart_url(self):
 		return reverse('add_to_cart_url',kwargs={'slug':self.slug})
@@ -123,26 +125,16 @@ class ProductImage(models.Model):
 	images = models.ImageField(upload_to=image_folder_album )
 
 	def __str__(self):
-#		return "id: {0}\tІмя :{1}\tПрізвище :{2}".format(str(self.id),self.first_name,self.last_name)
 		return self.images.path
+
+	def delete(self, *args, **kwargs):
+		self.images.delete(save=False)
+		super().delete(*args,**kwargs)
 
 	class Meta:
 		verbose_name = 'фото'
 		verbose_name_plural = 'фото'
 
-pre_save.connect(pre_save_product_slug, Product)
-
-def delete_Product_Image_content(sender, **kwargs):
-    """
-    Процедура, ловящая сигнал при удалении записи,
-    и производящая собственно удаление файла
-    """
-    mf = kwargs.get("instance")
-    mf.images.delete(save=False)
-
-# Теперь зарегистрируем нашу функцию для удаления
-
-post_delete.connect(delete_Product_Image_content, ProductImage)
 class CartItem(models.Model):
 
 	product = models.ForeignKey(Product,on_delete=models.CASCADE)
@@ -187,11 +179,10 @@ class Cart(models.Model):
 		self.cart_total = total_price
 		self.save()
 
+class Order(models.Model):
 # Accepted in processing = AIP_status, 'Прийнятий в обробку'
 # In processing = IP_status, 'В обробці'
 # Paid = PAID_status, 'Оплачено'
-
-class Order(models.Model):
 
 	ORDER_STATUS_CHOICES = (
 		('AIP_status', 'Прийнятий в обробку'),
@@ -203,8 +194,8 @@ class Order(models.Model):
 		('nova_poshta', 'Нова пошта'),
 		('ukr_poshta', 'Укр-пошта'),
 	)
-	
-	products = models.ManyToManyField(Product, verbose_name='Товари')
+	# cart = models.ForeignKey(Cart,on_delete=models.CASCADE, verbose_name='Корзина')
+	products = models.ManyToManyField(CartItem, verbose_name='Товари')
 	total = models.DecimalField(max_digits=9, decimal_places=2, default = 0, verbose_name='Сума')
 	second_name = models.CharField(max_length=200, verbose_name='Прізвище')
 	first_name = models.CharField(max_length=200, verbose_name='Імя')
@@ -217,16 +208,31 @@ class Order(models.Model):
 	comments = models.TextField(blank = True, verbose_name='Коментарь')
 	date = models.DateTimeField(auto_now_add=True)
 
-	def __str__(self):
-		return "{} /ДАТА: {} /ПІБ: {} {} {}".format(str(self.id), str(self.date.strftime("%d-%B-%Y")), self.second_name,self.first_name, self.last_name)
+	def remove_from_order(self,item_id):
+		C_item = CartItem.objects.get(id=item_id)
+		for item in self.products.all():
+			if item == C_item:
+				self.products.remove(item)
+				self.save()
+		self.sum_items()	
+
+	def sum_items(self):
+		total_price = Decimal(0.00)
+		for item in self.products.all():
+			total_price = total_price + item.item_total
+		self.total = total_price
+		self.save()
 
 	def products_add(self,cart):
 		self.save()
 		for item in cart.item.all():
-			print(item.product.id)
-			self.products.add(item.product.id)
+			print(item)
+			self.products.add(item.id)
 		self.save()
 		cart.delete()
+
+	def __str__(self):
+		return "{} /ДАТА: {} /ПІБ: {} {} {}".format(str(self.id), str(self.date.strftime("%d-%B-%Y")), self.second_name,self.first_name, self.last_name)
 
 	def get_absolute_url(self):
 		return reverse('create_order_url',kwargs={'id':self.id})

@@ -5,7 +5,8 @@ from django.views.generic import TemplateView
 from ecomapp.models import Category, Product, Cart, CartItem, ProductImage, Order, Page
 from django.core.paginator import Paginator
 
-from ecomapp.forms import  OrderForm, PageEditForm, CategoryForm
+from django.http.response import HttpResponseRedirect
+from ecomapp.forms import  OrderForm, PageEditForm, OrderForm, CategoryForm
 
 from django.db.models import Q
 
@@ -35,11 +36,23 @@ class BaseView(TemplateView):
 		cart = get_cart(request)	
 		categories = Category.objects.all() 
 		pages = Page.objects.all()[:3]
+		description = Page.objects.get(slug='description')
 		self.context = {
 			'categories': categories,
 			'cart':cart,
 			'pages':pages,
+			'description':description,
 		}
+		return render(request,self.template_name,context=self.context)
+
+class OrderDetailView(BaseView):
+
+	template_name = 'ecomapp/order_detail.html'
+	def get(self, request,id):
+		super().get(request)
+		order = Order.objects.get(id=id)
+		self.context['form'] = OrderForm(instance = order)
+		self.context['order'] = order
 		return render(request,self.template_name,context=self.context)
 
 class PageView(BaseView):
@@ -98,6 +111,8 @@ class SearchView(BaseView):
 	def get(self,request):
 		super().get(request)
 		search_query = request.GET.get('search', '')
+		if search_query == '':
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 		self.context['category'] = Category()
 		self.context['category'].name = 'Пошук: ' + search_query
 		products = Product.objects.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query) )
@@ -169,8 +184,6 @@ class CartView(BaseView):
 
 class ListOrder(BaseView):
 
-	months = ('Cіцень','Лютий','Березень','Квітень','Травень','Червень',
-		'Липень','Серпень','Вересень','Жовтень','Листопад','Грудень')
 	template_name = 'ecomapp/orders.html'
 
 	def get(self, request):
@@ -208,7 +221,10 @@ class CreateOrder(BaseView):
 			form.total = self.context['cart'].cart_total
 			form.products_add(self.context['cart'])
 			form.save()
-			self.send_order(form)
+			try:
+				self.send_order(form)
+			except:
+				print("not network")
 			return redirect(reverse('order_finish_url'))
 
 		self.context['form'] = bound_form 
@@ -217,17 +233,20 @@ class CreateOrder(BaseView):
 class OrderFinish(BaseView):
 
 	template_name = 'ecomapp/order_finish.html'
-	def get(self,request):
-		super().get(request)
-		return render(request, self.template_name, context=self.context )
-
 
 def add_to_cart(request, slug):
 	cart = get_cart(request)
+	order = Order()
 	cart.add_to_cart(slug)
-	return redirect(reverse('cart_url'))
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 def remove_from_view(request, slug):
 	cart = get_cart(request)
 	cart.remove_from_cart(slug)
 	return redirect(reverse('cart_url'))
+
+def remove_from_order_view(request,id, item_id):
+	cart = get_cart(request)
+	order = Order.objects.get(id=id)
+	order.remove_from_order(item_id)
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

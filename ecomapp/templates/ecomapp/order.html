@@ -21,7 +21,13 @@
 		    {% for item in cart.item.all %}
 		    
 		    <tr>
-		      <th scope="row">{{ item.product.title }}</th>
+		      <th scope="row">
+      			<a style="text-decoration: none; color: #323" href="{{ item.product.get_absolute_url }}">
+			      	<img src="{{ item.product.album_cover.url }}" height="40" alt="{{ item.product.slug }}" >
+		 			{{ item.product.title }}
+		      	</a>
+		
+		      </th>
 		      <td>{{ item.qty }}</td>
 		      <td>{{ item.item_total }} грн</td>
 		    </tr>
