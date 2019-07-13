@@ -39,7 +39,7 @@ class BaseView(TemplateView):
 		try:
 			description = Page.objects.get(slug='description')
 		except Exception as e:
-			description = Page.get_or_create('Опис','опис панелі сайту знизу','description')
+			description = Page.objects.get_or_create('Опис','опис панелі сайту знизу','description')
 
 		
 		self.context = {
