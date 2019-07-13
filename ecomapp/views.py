@@ -36,7 +36,12 @@ class BaseView(TemplateView):
 		cart = get_cart(request)	
 		categories = Category.objects.all() 
 		pages = Page.objects.all()[:3]
-		description = Page.objects.get(slug='description')
+		try:
+			description = Page.objects.get(slug='description')
+		except Exception as e:
+			description = Page.get_or_create('Опис','опис панелі сайту знизу','description')
+
+		
 		self.context = {
 			'categories': categories,
 			'cart':cart,
