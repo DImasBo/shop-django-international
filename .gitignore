@@ -1,4 +1,5 @@
-__pycache__/
+*/__pycachex__/
+__pycachex__/
 *.pyc
 db.sqlite3
 sveta9.txt
