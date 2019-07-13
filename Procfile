@@ -1,1 +1,1 @@
-web: gunicorn flowerashop.wsgi --log-file -
+web: gunicorn svitlana_chit.wsgi --log-file -
