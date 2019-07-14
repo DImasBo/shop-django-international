@@ -173,15 +173,15 @@ EMAIL_USE_TLS = True
 
 
 #################
-AWS_QUERYSTRING_AUTH = False
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', 'AKIA5JMV4GY3FGGVHYG7') # aws user table col  Access key ID 
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY','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') # aws user table col Secret access key 
-#https://console.aws.amazon.com/s3/home?region=us-east-2
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME','svetick-shop-files') # S3 buckets copy   Bucket name app
-#MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
-AWS_DEFAULT_ACL = None
-AWS_S3_FILE_OVERWRITE = False
+# AWS_QUERYSTRING_AUTH = False
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', 'AKIA5JMV4GY3FGGVHYG7') # aws user table col  Access key ID 
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY','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') # aws user table col Secret access key 
+# #https://console.aws.amazon.com/s3/home?region=us-east-2
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME','svetick-shop-files') # S3 buckets copy   Bucket name app
+# #MEDIA_URL = 'http://%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto.S3BotoStorage"
+# AWS_DEFAULT_ACL = None
+# AWS_S3_FILE_OVERWRITE = False
  
 # AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 # AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
