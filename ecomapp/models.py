@@ -24,7 +24,7 @@ class Category(models.Model):
 		if not self.slug and self.name:
 			slug = slugify(translit(self.name,'uk', reversed=True))
 			self.slug = slug
-		super().save(args, kwargs)
+		super().save( *args, **kwargs)
 
 	class Meta:
 		verbose_name = 'Категорію'
@@ -85,7 +85,7 @@ class Product(models.Model):
 		if not self.slug and self.title:
 			slug = slugify(translit(self.title,'uk', reversed=True))
 			self.slug = slug
-		super().save(args, kwargs)
+		super().save( *args, **kwargs)
 
 	def get_add_to_cart_url(self):
 		return reverse('add_to_cart_url',kwargs={'slug':self.slug})
