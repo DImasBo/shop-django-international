@@ -216,8 +216,11 @@ class CreateOrder(BaseView):
 <a href="#">переглянути </a>'''.format(order.second_name, order.first_name, order.last_name, order.total, order.phone_number)
 
 		tema = 'Замовлення !!!'
-		send_mail(tema, message, email, [email],html_message=message, fail_silently=False)
-
+		try:
+			print('yessssssssssssssss!!!!!!!!')
+			send_mail(tema, message, email, [email] ,html_message=message, fail_silently=False)
+		except:
+			print('email error!!!!!!!!!!!!!!!!!!!!!!!!!')
 	def get(self,request):
 		super().get(request)		
 		self.context['form'] = OrderForm()
