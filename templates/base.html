@@ -93,12 +93,17 @@
 					<li class="nav-item {% if request.resolver_match.url_name == 'index' %} active {% endif %}">
 						<a class="nav-link " href="{% url 'index' %}">Головна</a>
 					</li>
-					{% for page in pages %}
-						<li class='nav-item {% if request.path == "/page/"|add:page.slug %} active {% endif %}'>
-							<a class="nav-link" href="{{ page.get_absolute_url }}">{{ page.title }}</a>
-							
+						<li class='nav-item {% if request.path == "/page/"|add:about_us.slug %} active {% endif %}'>
+							<a class="nav-link" href="{{ about_us.get_absolute_url }}">{{ about_us.title }}</a>
 						</li>
-					{% endfor %}
+
+						<li class='nav-item {% if request.path == "/page/"|add:contacts.slug %} active {% endif %}'>
+							<a class="nav-link" href="{{ contacts.get_absolute_url }}">{{ contacts.title }}</a>
+						</li>
+
+						<li class='nav-item {% if request.path == "/page/"|add:buying_type.slug %} active {% endif %}'>
+							<a class="nav-link" href="{{ buying_type.get_absolute_url }}">{{ buying_type.title }}</a>
+						</li>
 			    	{% if request.user.is_authenticated and request.user.is_staff %}
 					 <li class="nav-item dropdown">
 				        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
