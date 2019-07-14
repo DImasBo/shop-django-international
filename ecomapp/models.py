@@ -125,7 +125,7 @@ class ProductImage(models.Model):
 	images = models.ImageField(upload_to=image_folder_album )
 
 	def __str__(self):
-		return self.images.path
+		return self.images.url
 
 	def delete(self, *args, **kwargs):
 		self.images.delete(save=False)
