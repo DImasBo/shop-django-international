@@ -3,3 +3,5 @@ __pycachex__/
 *.pyc
 db.sqlite3
 sveta9.txt
+static_in_dev/
+media/
