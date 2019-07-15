@@ -46,14 +46,14 @@
 		  </tbody>
 
 		</table>
+	<div class="col-12">
+		<a class="float-right btn btn-primary" href="{% url 'create_order_url' %}">Оформити Замовлення</a>
+	</div>
 		{% else %}
 		<p>Пуста</p>
 		<a href="{{request.META.HTTP_REFERER}}">Продовжити покупки</a>
 		{% endif %}
 	
-	</div>
-	<div class="col-12">
-		<a class="float-right btn btn-primary" href="{% url 'create_order_url' %}">Оформити Замовлення</a>
 	</div>
 </div>
 	
