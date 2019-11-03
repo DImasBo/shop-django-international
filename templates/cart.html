@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+    <table class="table table-bordered">
+        {% if cart.count > 0 %}
+        <caption>{% trans 'Ваший кошик' %}
+    <a class="float-right btn btn-primary" href="{% url 'create_order_url' %}">{% trans 'Оформити замовлення' %}</a>
+          </caption>
+          <thead>
+            <tr>
+                  <th scope="col">{% trans 'Товар' %}</th>
+                  <th scope="col">{% trans "Кількість" %}</th>
+                  <th scope="col">{% trans 'Ціна' %}</th>
+                  <th scope="col"></th>
+            </tr>
+          </thead>
+        <tbody>
+
+        {% for item in cart %}
+        <tr>
+            <td scope="row">{{ item.product.title }}</td>
+            <td scope="row">
+<button onclick="minus(this)" data-quantity="{{ item.quantity }}" data-product-id="{{item.product.id}}" class="btn btn-light"><</button>
+                {{ item.quantity }}
+<a class="add btn btn-light" href="{{ item.get_add_url }}">></a>
+            </td>
+            <td scope="row">{{ item.total_price }} грн</td>
+            <td scope="row"><a href="{% url 'remove_from_cart_url' product_id=item.product.id %}">{% trans 'видалити' %}</a></td>
+        </tr>
+        {% endfor %}
+            <tr>
+              <td  colspan="3"><p class="float-right my-0" >{% trans "всього" %}: {{ cart.summary }} грн</p></td>
+            </tr>
+          </tbody>
+    {% else %}
+      <caption>{% trans 'Ваш кошик пустий' %} <a href="/">{% trans 'Перейти на головну' %}</a></caption>
+    {% endif %}
+    </table>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    function minus(el){
+        if (Number(el.dataset.quantity) == 1){
+            if (confirm("{% trans 'видалити товар з корзини?' %}"))
+                window.location.replace('/remove/product/' + String(el.dataset.productId));
+        }else{
+            window.location.replace('/minus/product/' + String(el.dataset.productId));
+        }
+    }
+</script>
+{% endblock %}

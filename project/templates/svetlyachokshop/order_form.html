@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags i18n %}
+
+{% block content %}
+    <table class="table table-bordered">
+        {% if cart.count > 0 %}
+        <caption>{% trans 'Ваший кошик' %}
+          </caption>
+          <thead>
+            <tr>
+                  <th scope="col">{% trans 'Продукт' %}</th>
+                  <th scope="col">{% trans "Кількість" %}</th>
+                  <th scope="col">{% trans 'Ціна' %}</th>
+            </tr>
+          </thead>
+        <tbody>
+
+        {% for item in cart %}
+        <tr>
+            <td scope="row">{{ item.product.title }}</td>
+            <td scope="row">
+                {{ item.quantity }}
+            </td>
+            <td scope="row">{{ item.total_price }} грн</td>
+        </tr>
+        {% endfor %}
+            <tr>
+              <td  colspan="3">{% trans "всього" %}: {{ cart.summary }} грн</td>
+            </tr>
+          </tbody>
+	{% endif %}
+      </table>
+
+<form method="POST">
+{% csrf_token %}
+		{% for field in form %}
+			<div class="form-group">
+			{% if field.errors %}
+			<div class="alert alert-danger">
+				{{field.errors}}
+			</div>
+			{% endif %}
+			  <div class="form-group row">
+			    <label class="col-sm-3 col-form-label">{{ field.label }}</label>
+			    <div class="col-sm-9">
+						{{ field }}
+				</div>
+			  </div>
+
+			</div>
+		{% endfor %}
+		<div class="form-group">
+			<button type="submit" class="btn btn-success">{% trans 'Завершити' %}</button>
+		</div>
+
+</form>
+{% endblock %}

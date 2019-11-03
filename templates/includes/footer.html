@@ -1,0 +1,72 @@
+{% load static i18n %}
+	<!-- FOOTER -->
+	<footer id="footer" class="section section-grey">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- footer widget -->
+				<div class="col-md-4 col-sm-6 col-xs-6">
+					<div class="footer">
+						<a class = "navbar-brand" href="{% url 'index' %}"><img src="{% static 'img/logo.png' %}" style="max-height: 80px" alt="logo"></a>
+					<br>
+				{% if request.user.is_authenticated and request.user.is_staff %}
+					<a href="{% url 'admin:svetlyachokshop_page_change' object_id=description_site.id %}"><img width="20" height="20" src="{% static 'img/edit.png' %}">редагувати</a>
+				{% endif %}
+		
+						<p>{{description_site.description|safe }}</p>
+						<p>{% trans 'Слідкуйте за нами' %} :
+							<a href="https://www.instagram.com/domashneemyltse/" target="_blank"><img src="{% static 'img/instagram.png' %}" width="20" height="20" alt="instagram"></a>
+							<a href="https://www.facebook.com/groups/583115558709164/"><img src="{% static 'img/facebook.png' %}" width="20" height="20" alt="facebook"></a>
+						</p>
+					</div>
+				</div>
+				<!-- /footer widget -->
+				<div class="col-md-5">
+					<div class="footer">
+					{% include 'includes/callback.html' %}
+					</div>
+				</div>
+				<!-- footer widget -->
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="footer">
+						<h3>{% trans 'Контакти' %}</h3>
+						
+						<a class="nav-link" href="tel:+380958909238"  style="color: #323232">
+							<img  width="20" height="20" src="{% static 'img/vodafone.png' %}" alt="icon">
+							 +380 95 8909 238
+						</a>
+						<a class="nav-link" href="tel:+380968387299" style="color: #323232">
+							<img  width="20" height="20" src="{% static 'img/kyivstar.png' %}" alt="icon">
+							 +380 96 8387 299
+						</a>
+						<a class="nav-link" href="mailto:svetlyachok.handmade@gmail.com" style="color: #323232">svetlyachok.handmade@gmail.com</a>
+						<h4>
+						<a class="nav-link" href="{% url 'admin:index' %}" style="color: #323232">{% trans 'client area' %}</a>
+	                               {% if request.user.is_authenticated and request.user.is_staff %}
+						<a href="{% url 'admin:logout' %}">{% trans 'Вийти' %}</a>
+					{% endif %}
+						</h4>
+					</div>
+
+				</div>
+				<!-- /footer widget -->
+		</div>
+			<!-- /row -->
+			<hr>
+			<!-- row -->
+			<div class="row">
+				<div class="col text-center">
+					<!-- footer copyright -->
+					<div class="footer-copyright">
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						{% trans 'Всі права захищені' %} «svetlyachokshop» Copyright &copy; 2019
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</div>
+					<!-- /footer copyright -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</footer>	

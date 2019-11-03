@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}
+{% trans 'Замовлення оформленне' %} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+<div class="row w-100">
+	<h3 class="col-12">{% trans 'Замовлення оформленне' %}</h3>
+	<p class="col-12">{% trans 'Ми приняли замовлення в обробку, очікуйте дзвінок.<br>Якщо вже вечір дзвінок, очікуйте вранці.<br>Дякуємо за розуміння.' %}</p>
+	<a href="{% url 'index' %}" class="col-12">{% trans 'Продовжити покупки' %}</a>
+	<div class="col-md-6">
+		<img src="{% static 'img/cell.gif' %}" class="w-100" alt="cell phone">
+	</div>
+</div>
+{% endblock %}

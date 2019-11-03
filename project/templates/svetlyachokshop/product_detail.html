@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ product.title }} - {{ block.super }}{% endblock %}
+{% block meta_description %}{{ product.meta_description }} {{ block.super }}{% endblock %}
+{% block meta_keywords%}{{ product.meta_keywords }} {{ block.super }}{% endblock %}
+
+
+{% block content %}
+<div class="row  my-3">
+	<div class="col-md-12">
+		<div class="section-title">
+			<h2 class="title">{{ product.title|title }}</h2>
+			<div class="pull-right">
+				<div class="product-slick-dots-1 custom-dots"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-7">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+		  <ol class="carousel-indicators">
+
+			{% for n in product_album %}
+			    <li data-target="#carouselExampleIndicators" data-slide-to="{{ n }}" class="active"></li>
+		    {% endfor %}
+		  </ol>
+		  <div class="carousel-inner">
+		    <div id="carousel-{{ product.product_cover.id }}"  class="carousel-item active" data-id="{{ product.product_cover.id }}">
+		      <img class="d-block  w-100"  src="{{ product.product_cover.url }}" alt="First slide">
+		    </div>
+		    {% for image in product.image.all %}
+		    <div id="carousel-{{ image.image_id }}" class="carousel-item" data-id="{{ image.image_id }}" >
+		        <img class="d-block  w-100" src="{{ image.image.url }}" alt="slide">
+		    </div>
+		    {% endfor %}
+		  </div>
+		  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+		    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		    <span class="sr-only">Previous</span>
+		  </a>
+		  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+		    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		    <span class="sr-only">Next</span>
+		  </a>
+		</div>
+	</div>
+	<div class="col-md-5">
+		<div class="row">
+			{% if request.user.is_authenticated and request.user.is_staff %}
+			<div class="col-md-12 py-2 bg-light">
+				<a href="{% url  'admin:svetlyachokshop_product_change' object_id=product.id %}"><img width="20" height="20" src="{% static 'img/edit.png' %}">редагувати</a>
+			</div>
+			{% endif %}
+			<div class="col-md-12 mt-3 pt-3 bg-light">
+				<ul class="mb-2 list-group list-group-flush">
+		 			 <li class="list-group-item">{% trans 'Ціна' %}: {{ product.price }} грн.</li>
+		 			 {% if product.status == 'av' %}
+			  			<li class="list-group-item">{% trans 'Кількість' %}: {{ product.count }}</li>
+			  		{% endif %}
+			  		<li class="list-group-item">{{product.get_status_display}}</li>
+					<li class="list-group-item">{% trans 'Категорія' %}: <a href="{{ product.category.get_absolute_url }}">{{ product.category.name }}</a></li>
+			
+				</ul>
+			<a href="{{ product.get_add_url }}" class="btn btn-primary mb-2"><!--<img src="{% static 'img/cart.png' %}" width="30" height="30" alt="cart">-->{% trans 'В кошик' %}</a>
+		</div>		
+			<div class="col-md-12 mt-3 bg-light">
+
+			<h3>{% trans 'Опис' %}</h3>
+			<p>{{ product.description|safe }}</p>
+		</div>
+		{% if product_album %}
+		<div class="col-md-12 mt-3 bg-light pt-2">
+
+			<div class="row m-2">
+				<h4 class="col-md-12">{% trans 'Фото' %}</h4>
+					<a  class="col-md-4" href="#image_show"><img onclick="click_image(this)" class="img-thumbnail bg-primary" src="{{ product.product_cover.url }}" data-id="{{ product.product_cover.id }}" alt="image in cover {{ product.product_cover.id }}"></a>
+	
+				{% for image in product_album %}
+					<a class="col-md-4 " href="#image_show"><img onclick="click_image(this)" class="img-thumbnail" src="{{ image.image.url }}" data-id="{{ image.image_id }}" alt="image in cover {{ image.image_id }}"></a>
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
+		</div>
+	</div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    function click_image(el){
+    	var active_image = document.getElementsByClassName('carousel-item active')[0]
+    	if (active_image.dataset.id != el.dataset.id){
+    		var images = document.getElementsByClassName('img-thumbnail')
+    		for(var i = 0;i < images.length; i++)
+    			images[i].classList.remove('bg-primary')
+    		el.classList.add('bg-primary')
+	        active_image.classList.remove('active');
+	        var new_active_image = document.getElementById('carousel-' + String(el.dataset.id));
+	        new_active_image.classList.add('active');
+    	}
+    }
+</script>
+{% endblock %}

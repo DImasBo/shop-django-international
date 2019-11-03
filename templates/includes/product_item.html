@@ -1,0 +1,17 @@
+{% load static i18n %}
+<div class="card mx-2" style="width: 18rem;">
+  <a href="{{ product.get_absolute_url }}" class="product-title">
+  <img src="{{ product.product_cover.url }}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ product.title}}</h5>
+    <p class="card-text">{{product.price}}</p>
+    <p class="card-text">{{product.get_status_display}}</p>
+    <div class="text-right">
+    	<a href="{{product.get_add_url}}" class="btn btn-primary">
+<!--    		<img src="{% static 'img/cart.png' %}" width="30" height="30" alt="cart">-->
+		{% trans 'В кошик' %}
+    	</a>
+	</div>
+  </div>
+  </a>
+</div>

@@ -1,0 +1,26 @@
+{% load crispy_forms_tags i18n %}
+{% block style %}
+<style type="text/css">
+	#id_question{
+		height: 150px;
+	}
+</style>
+{% endblock %}
+
+<h3>{% trans 'Задати питання' %}</h3>
+<form action="{% url 'callback_url' %}" method="POST" class="uniForm">
+{% csrf_token %}
+  <div class="row">
+    <div class="col-md-6">
+				{{ callback_form.name|as_crispy_field }}
+	  </div>
+	  <div class="col-md-6">
+				{{ callback_form.email|as_crispy_field }}
+	  </div>
+	  <div class="col-md-12">
+				{{callback_form.question|as_crispy_field }}
+	  </div>	
+	 </div>
+
+	<button type="submit" class="btn btn-primary">{% trans 'Надіслати' %}</button>
+</form>
