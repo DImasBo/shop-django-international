@@ -1,5 +1,5 @@
 # АДАПТИВНИЙ, багатомовний ІНТЕРНЕТ-МАГАЗИН DJANGO/BOOTSTRAP/PostgreSQL/DROPBOX
- <https://svetlyachokshop.com/>
+ <http://svetlyachokshop.com/>
 -----------
 Дизайн адаптований під всі девайси. Створений використовуючи фреймворк [**BOOTSTRAP**](https://getbootstrap.com/).
 ![1](https://github.com/DImasBo/shop-django/blob/master/description/1.png)
