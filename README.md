@@ -2,7 +2,7 @@
  <http://svetlyachokshop.com/>
 -----------
 Дизайн адаптований під всі девайси. Створений використовуючи фреймворк [**BOOTSTRAP**](https://getbootstrap.com/).
-![1](https://github.com/DImasBo/shop-django/blob/master/description/1.png)
+![1](https://github.com/DImasBo/shop-django-international/blob/master/description/1.png)
 Інтернет-магазин має кабінет адміністратора для налаштування сайту.
 ![2](https://github.com/DImasBo/shop-django-international/blob/master/description/2.png)
 
