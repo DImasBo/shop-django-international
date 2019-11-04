@@ -34,6 +34,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
 	path('',views.IndexView.as_view(), name='index'),
+    path('search/',views.SearchList.as_view(), name="search"),
     path('callback/',views.callback_view,name='callback_url'),
     path('cart/',views.CartView.as_view(),name='cart_url'),
     path('finish/order/', views.OrderFinish.as_view(),name="order_finish_url"),

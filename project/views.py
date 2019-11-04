@@ -21,6 +21,7 @@ from .models import Category, Page,  Question, Order
 from .forms import FormQuestion
 from django.views.generic.edit import CreateView
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 # language
 def select_lang(request, code):
@@ -172,4 +173,10 @@ email: {}<br>
 
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-
+# search view
+class SearchList(ListView,BaseVeiwMixin):
+	model = Product
+	paginate_by	= 10
+	def get_queryset(self):
+		search = self.request.GET['search']
+		return Product.objects.filter(Q(translation__title__icontains=search) | Q(translation__description__icontains=search))

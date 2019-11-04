@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 #Edit post castom
     'django_summernote',
-    'svetlyachokshop',
+    'project',
 ]
 
 MIDDLEWARE = [
