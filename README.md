@@ -6,10 +6,10 @@
 Інтернет-магазин має кабінет адміністратора для налаштування сайту.
 ![2](https://github.com/DImasBo/shop-django-international/blob/master/description/2.png)
 Всесь контент для користувача э багатомовним.
-![Український контент](https://github.com/DImasBo/shop-django-international/blob/master/description/ua.png)
-![Російський контент](https://github.com/DImasBo/shop-django-international/blob/master/description/ru.png)
+![Український контент](https://github.com/DImasBo/shop-django-international/blob/master/description/ua.PNG)
+![Російський контент](https://github.com/DImasBo/shop-django-international/blob/master/description/ru.PNG)
 Редактор контенту
-![Редактор контенту](https://github.com/DImasBo/shop-django-international/blob/master/description/model_international.png)
+![Редактор контенту](https://github.com/DImasBo/shop-django-international/blob/master/description/model_international.PNG)
 Майже всі сторінки сайту можна редагувати за допомогою редактора. Виглядає як Звичайний текстовий редактор створений використовуючи фреймворк [**django-summernote**](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=2ahUKEwj9osK40tPjAhVjxosKHWO1BigQFjAAegQIBBAB&url=https%3A%2F%2Fgithub.com%2Fsummernote%2Fdjango-summernote&usg=AOvVaw3RG_M_jVPLKuhta5SHVitD "Посилання на фреймворк!")
 ![image editor](https://github.com/DImasBo/shop-django-international/blob/master/description/editor.png)
 Кошик сайту має всю необхідну навігацію для редагування.
