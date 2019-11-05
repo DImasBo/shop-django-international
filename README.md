@@ -21,5 +21,3 @@
 Для збереження медіа файлів, використовується сервер **Dropbox**(з безплатним тарифом 2 гб).
 ![dropbox](https://github.com/DImasBo/shop-django-international/blob/master/description/dropbox.png)
 Для бази даних використовуємо **PostgreSQL**.
-media soft
-адміністратор
